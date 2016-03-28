@@ -29,7 +29,13 @@ public struct BranchMiddleware: Middleware {
     let truthy: [Middleware]
     let falsy: [Middleware]
 
-    public init(yes truthy: [Middleware], no falsy: [Middleware] = [], condition: Request throws -> Bool) {
+    public init(if condition: Request throws -> Bool, branchTo truthy: [Middleware], else falsy: [Middleware] = []) {
+        self.condition = condition
+        self.truthy = truthy
+        self.falsy = falsy
+    }
+
+    public init(branchTo truthy: [Middleware], else falsy: [Middleware] = [], if condition: Request throws -> Bool) {
         self.condition = condition
         self.truthy = truthy
         self.falsy = falsy
